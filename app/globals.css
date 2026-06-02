@@ -130,7 +130,9 @@ button {
 .topbar-actions,
 .link-button,
 .search-box,
-.status-pill {
+.status-pill,
+.whatsapp-line,
+.campaign-actions {
   display: flex;
   align-items: center;
 }
@@ -253,7 +255,8 @@ button {
 .campaign-row p,
 .validation-row p,
 .accent-panel p,
-.upload-zone p {
+.upload-zone p,
+.campaign-detail-grid span {
   margin: 0;
   color: var(--muted);
 }
@@ -294,7 +297,8 @@ button {
 .validation-list,
 .check-list,
 .form-grid,
-.columns-grid {
+.columns-grid,
+.campaign-cards {
   display: grid;
   gap: 10px;
 }
@@ -523,6 +527,52 @@ button {
   color: var(--muted);
 }
 
+.campaign-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.campaign-card {
+  display: grid;
+  gap: 16px;
+}
+
+.campaign-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.campaign-detail-grid div {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--surface-muted);
+}
+
+.campaign-detail-grid span {
+  font-size: 12px;
+}
+
+.campaign-detail-grid strong {
+  font-size: 15px;
+}
+
+.whatsapp-line {
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #f7fcfb;
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
+.campaign-actions {
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 @media (max-width: 1100px) {
   .app-shell {
     grid-template-columns: 1fr;
@@ -539,12 +589,17 @@ button {
   .metrics-grid,
   .content-grid,
   .import-grid,
-  .filters-panel {
+  .filters-panel,
+  .campaign-cards {
     grid-template-columns: 1fr 1fr;
   }
 
   .wide-panel {
     grid-column: 1 / -1;
+  }
+
+  .campaign-detail-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -555,7 +610,8 @@ button {
 
   .topbar,
   .status-band,
-  .panel-header {
+  .panel-header,
+  .campaign-actions {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -565,7 +621,9 @@ button {
   .import-grid,
   .nav-list,
   .columns-grid,
-  .filters-panel {
+  .filters-panel,
+  .campaign-cards,
+  .campaign-detail-grid {
     grid-template-columns: 1fr;
   }
 
