@@ -16,7 +16,7 @@ import {
 const navigation = [
   { label: "Dashboard", icon: BarChart3, href: "/" },
   { label: "Import Excel", icon: FileSpreadsheet, href: "/import-excel", active: true },
-  { label: "Clients", icon: UsersRound, href: "#" },
+  { label: "Clients", icon: UsersRound, href: "/clients" },
   { label: "Campagnes", icon: MessageCircle, href: "#" },
   { label: "Validation IA", icon: Bot, href: "#" },
   { label: "Anti-rush", icon: Gauge, href: "#" },
