@@ -52,7 +52,7 @@ const campaignStatusLabels: Record<CampaignStatus, string> = {
 const navigation = [
   { label: "Dashboard", icon: BarChart3, href: "/", active: true },
   { label: "Import Excel", icon: FileSpreadsheet, href: "/import-excel" },
-  { label: "Clients", icon: UsersRound, href: "#" },
+  { label: "Clients", icon: UsersRound, href: "/clients" },
   { label: "Campagnes", icon: MessageCircle, href: "#" },
   { label: "Validation IA", icon: Bot, href: "#" },
   { label: "Anti-rush", icon: Gauge, href: "#" },
