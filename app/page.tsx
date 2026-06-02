@@ -11,58 +11,42 @@ import {
   Star,
   UsersRound
 } from "lucide-react";
+import {
+  antiRushRecommendations,
+  appUsers,
+  campaigns,
+  clients,
+  generatedMessages,
+  googleReviews
+} from "../lib/mock-data";
+import type { CampaignStatus, ClientCategory, ClientLanguage } from "../lib/types";
 
-const metrics = [
-  { label: "Clients importes", value: "1 248", change: "+320 cette semaine" },
-  { label: "Invitations prevues", value: "20/jour", change: "rythme tres prudent" },
-  { label: "Messages a valider", value: "36", change: "Omra/Hajj en priorite" },
-  { label: "Avis suivis", value: "24", change: "Google en verification V2" }
-];
+const categoryLabels: Record<ClientCategory, string> = {
+  omra: "Omra",
+  hajj: "Hajj",
+  visa: "Visa",
+  flight_tickets: "Billets d'avion",
+  touristic_stays: "Sejours touristiques",
+  organized_trips: "Voyages organises",
+  other: "Autres"
+};
 
-const campaigns = [
-  {
-    name: "Anciens clients Omra",
-    segment: "Omra / Arabe classique",
-    owner: "Responsable Omra/Hajj",
-    status: "Validation messages",
-    volume: "12 invitations"
-  },
-  {
-    name: "Billetterie 2024-2025",
-    segment: "Billets d'avion / Francais",
-    owner: "Responsable billetterie",
-    status: "Planifiee",
-    volume: "8 invitations"
-  },
-  {
-    name: "Sejours touristiques",
-    segment: "Voyages organises / Mix FR-AR",
-    owner: "Responsable destinations",
-    status: "Brouillon IA",
-    volume: "10 invitations"
-  }
-];
+const languageLabels: Record<ClientLanguage, string> = {
+  fr: "Francais",
+  ar: "Arabe classique",
+  darija: "Darija",
+  mixed_fr_ar: "Mix FR-AR"
+};
 
-const validations = [
-  {
-    client: "Kawtar A.",
-    category: "Omra",
-    language: "Arabe classique",
-    message: "Suggestion d'avis personnalisee prete a adapter librement."
-  },
-  {
-    client: "Youssef B.",
-    category: "Billetterie",
-    language: "Francais",
-    message: "Invitation avec rappel d'experience et lien avis Google."
-  },
-  {
-    client: "Samira E.",
-    category: "Sejour",
-    language: "Darija",
-    message: "Texte chaleureux, non repetitif, avec mention de liberte."
-  }
-];
+const campaignStatusLabels: Record<CampaignStatus, string> = {
+  draft: "Brouillon",
+  ai_generation: "Generation IA",
+  pending_validation: "Validation messages",
+  scheduled: "Planifiee",
+  sending: "Envoi en cours",
+  paused: "En pause",
+  completed: "Terminee"
+};
 
 const navigation = [
   { label: "Dashboard", icon: BarChart3, active: true },
@@ -75,7 +59,34 @@ const navigation = [
   { label: "Conformite", icon: ShieldCheck }
 ];
 
+function getUserName(userId: string) {
+  return appUsers.find((user) => user.id === userId)?.name ?? "Responsable non affecte";
+}
+
+function getClientName(clientId: string) {
+  const client = clients.find((item) => item.id === clientId);
+  if (!client) return "Client inconnu";
+  return [client.firstName, client.lastName].filter(Boolean).join(" ");
+}
+
+function getClientDetails(clientId: string) {
+  const client = clients.find((item) => item.id === clientId);
+  if (!client) return "Categorie inconnue";
+  return `${categoryLabels[client.category]} - ${languageLabels[client.language]}`;
+}
+
 export default function Home() {
+  const pendingMessages = generatedMessages.filter((message) => message.status === "pending_validation");
+  const approvedMessages = generatedMessages.filter((message) => message.status === "approved");
+  const latestRecommendation = antiRushRecommendations[0];
+  const recommendedLimit = latestRecommendation?.recommendedDailyLimit ?? 20;
+  const metrics = [
+    { label: "Clients importes", value: clients.length.toString(), change: "donnees de demonstration" },
+    { label: "Invitations prevues", value: `${recommendedLimit}/jour`, change: "rythme tres prudent" },
+    { label: "Messages a valider", value: pendingMessages.length.toString(), change: `${approvedMessages.length} deja valide(s)` },
+    { label: "Avis suivis", value: googleReviews.length.toString(), change: "Google en verification V2" }
+  ];
+
   return (
     <main className="app-shell">
       <aside className="sidebar" aria-label="Navigation principale">
@@ -117,9 +128,10 @@ export default function Home() {
         <section className="status-band">
           <div>
             <p className="eyebrow">Recommandation IA</p>
-            <h3>Rythme conseille : 10 a 20 invitations par jour pendant le premier mois.</h3>
+            <h3>Rythme conseille : 10 a {recommendedLimit} invitations par jour pendant le premier mois.</h3>
             <p>
-              Envois espaces entre fin de matinee, milieu d'apres-midi et debut de soiree. Acceleration uniquement apres analyse hebdomadaire.
+              {latestRecommendation?.advice ??
+                "Envois espaces entre fin de matinee, milieu d'apres-midi et debut de soiree. Acceleration uniquement apres analyse hebdomadaire."}
             </p>
           </div>
           <div className="status-badge">
@@ -149,14 +161,14 @@ export default function Home() {
             </div>
             <div className="campaign-list">
               {campaigns.map((campaign) => (
-                <article className="campaign-row" key={campaign.name}>
+                <article className="campaign-row" key={campaign.id}>
                   <div>
                     <h4>{campaign.name}</h4>
-                    <p>{campaign.segment}</p>
+                    <p>{categoryLabels[campaign.category]} / {languageLabels[campaign.language]}</p>
                   </div>
-                  <span>{campaign.owner}</span>
-                  <span>{campaign.volume}</span>
-                  <strong>{campaign.status}</strong>
+                  <span>{getUserName(campaign.ownerUserId)}</span>
+                  <span>{campaign.dailyLimit} invitations</span>
+                  <strong>{campaignStatusLabels[campaign.status]}</strong>
                 </article>
               ))}
             </div>
@@ -189,15 +201,17 @@ export default function Home() {
               <button className="secondary-button">Voir tout</button>
             </div>
             <div className="validation-list">
-              {validations.map((item) => (
-                <article className="validation-row" key={item.client}>
-                  <div className="avatar">{item.client.slice(0, 1)}</div>
+              {generatedMessages.map((item) => (
+                <article className="validation-row" key={item.id}>
+                  <div className="avatar">{getClientName(item.clientId).slice(0, 1)}</div>
                   <div>
-                    <h4>{item.client}</h4>
-                    <p>{item.category} - {item.language}</p>
+                    <h4>{getClientName(item.clientId)}</h4>
+                    <p>{getClientDetails(item.clientId)}</p>
                   </div>
-                  <span>{item.message}</span>
-                  <button className="approve-button">Valider</button>
+                  <span>{item.mandatoryFreedomNotice}</span>
+                  <button className="approve-button">
+                    {item.status === "approved" ? "Valide" : "Valider"}
+                  </button>
                 </article>
               ))}
             </div>
