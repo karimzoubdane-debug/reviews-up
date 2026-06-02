@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   BarChart3,
   Bell,
@@ -49,14 +50,14 @@ const campaignStatusLabels: Record<CampaignStatus, string> = {
 };
 
 const navigation = [
-  { label: "Dashboard", icon: BarChart3, active: true },
-  { label: "Import Excel", icon: FileSpreadsheet },
-  { label: "Clients", icon: UsersRound },
-  { label: "Campagnes", icon: MessageCircle },
-  { label: "Validation IA", icon: Bot },
-  { label: "Anti-rush", icon: Gauge },
-  { label: "Historique", icon: CalendarClock },
-  { label: "Conformite", icon: ShieldCheck }
+  { label: "Dashboard", icon: BarChart3, href: "/", active: true },
+  { label: "Import Excel", icon: FileSpreadsheet, href: "/import-excel" },
+  { label: "Clients", icon: UsersRound, href: "#" },
+  { label: "Campagnes", icon: MessageCircle, href: "#" },
+  { label: "Validation IA", icon: Bot, href: "#" },
+  { label: "Anti-rush", icon: Gauge, href: "#" },
+  { label: "Historique", icon: CalendarClock, href: "#" },
+  { label: "Conformite", icon: ShieldCheck, href: "#" }
 ];
 
 function getUserName(userId: string) {
@@ -102,10 +103,10 @@ export default function Home() {
           {navigation.map((item) => {
             const Icon = item.icon;
             return (
-              <button className={item.active ? "nav-item active" : "nav-item"} key={item.label}>
+              <Link className={item.active ? "nav-item active" : "nav-item"} href={item.href} key={item.label}>
                 <Icon size={18} aria-hidden="true" />
                 <span>{item.label}</span>
-              </button>
+              </Link>
             );
           })}
         </nav>
@@ -157,7 +158,7 @@ export default function Home() {
                 <p className="eyebrow">Campagnes</p>
                 <h3>File de travail</h3>
               </div>
-              <button className="secondary-button">Importer Excel</button>
+              <Link className="secondary-button link-button" href="/import-excel">Importer Excel</Link>
             </div>
             <div className="campaign-list">
               {campaigns.map((campaign) => (
