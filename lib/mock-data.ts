@@ -2,6 +2,7 @@ import type {
   AiGeneratedMessage,
   AntiRushRecommendation,
   AppUser,
+  AuditLogEntry,
   Campaign,
   Client,
   GoogleReview,
@@ -186,5 +187,62 @@ export const googleReviews: GoogleReview[] = [
     receivedAt: "2026-06-03T14:00:00.000Z",
     category: "other",
     status: "new"
+  }
+];
+
+export const auditLogEntries: AuditLogEntry[] = [
+  {
+    id: "audit-001",
+    actorUserId: "user-admin",
+    action: "client_imported",
+    entityType: "client",
+    entityId: "client-001",
+    details: "Import Excel initial : 3 clients ajoutes avec categories et langues.",
+    createdAt: "2026-06-03T10:12:00.000Z"
+  },
+  {
+    id: "audit-002",
+    actorUserId: "user-admin",
+    action: "campaign_created",
+    entityType: "campaign",
+    entityId: "campaign-omra-001",
+    details: "Creation campagne Anciens clients Omra avec limite de 12 invitations par jour.",
+    createdAt: "2026-06-03T11:00:00.000Z"
+  },
+  {
+    id: "audit-003",
+    actorUserId: "user-omra",
+    action: "message_generated",
+    entityType: "message",
+    entityId: "msg-001",
+    details: "Message IA genere avec suggestion d'avis modifiable et score de similarite 18%.",
+    createdAt: "2026-06-03T12:00:00.000Z"
+  },
+  {
+    id: "audit-004",
+    actorUserId: "user-admin",
+    action: "message_approved",
+    entityType: "message",
+    entityId: "msg-002",
+    details: "Message billetterie valide par l'admin avant envoi.",
+    createdAt: "2026-06-03T12:30:00.000Z"
+  },
+  {
+    id: "audit-005",
+    actorUserId: "user-admin",
+    action: "settings_changed",
+    entityType: "settings",
+    entityId: "rush-001",
+    details: "Anti-rush configure en rythme tres prudent pour le premier mois.",
+    createdAt: "2026-06-03T13:00:00.000Z"
+  },
+  {
+    id: "audit-006",
+    actorUserId: "user-admin",
+    action: "review_received",
+    entityType: "review",
+    entityId: "review-001",
+    details: "Nouvel avis Google detecte, reponse a generer en V2 apres verification API.",
+    createdAt: "2026-06-03T14:00:00.000Z"
   }
 ];
