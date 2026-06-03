@@ -36,7 +36,7 @@ const navigation = [
   { label: "Import Excel", icon: FileSpreadsheet, href: "/import-excel" },
   { label: "Clients", icon: UsersRound, href: "/clients", active: true },
   { label: "Campagnes", icon: MessageCircle, href: "/campagnes" },
-  { label: "Validation IA", icon: Bot, href: "#" },
+  { label: "Validation IA", icon: Bot, href: "/validation-ia" },
   { label: "Anti-rush", icon: Gauge, href: "#" },
   { label: "Historique", icon: CalendarClock, href: "#" },
   { label: "Conformite", icon: ShieldCheck, href: "#" }
