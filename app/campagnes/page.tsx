@@ -46,7 +46,7 @@ const navigation = [
   { label: "Import Excel", icon: FileSpreadsheet, href: "/import-excel" },
   { label: "Clients", icon: UsersRound, href: "/clients" },
   { label: "Campagnes", icon: MessageCircle, href: "/campagnes", active: true },
-  { label: "Validation IA", icon: Bot, href: "#" },
+  { label: "Validation IA", icon: Bot, href: "/validation-ia" },
   { label: "Anti-rush", icon: Gauge, href: "#" },
   { label: "Historique", icon: CalendarClock, href: "#" },
   { label: "Conformite", icon: ShieldCheck, href: "#" }
@@ -200,7 +200,7 @@ export default function CampagnesPage() {
               </div>
 
               <div className="campaign-actions">
-                <button className="secondary-button">Voir messages</button>
+                <Link className="secondary-button link-button" href="/validation-ia">Voir messages</Link>
                 <button className="approve-button">Preparer envoi</button>
               </div>
             </article>
