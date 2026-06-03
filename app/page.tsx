@@ -54,7 +54,7 @@ const navigation = [
   { label: "Import Excel", icon: FileSpreadsheet, href: "/import-excel" },
   { label: "Clients", icon: UsersRound, href: "/clients" },
   { label: "Campagnes", icon: MessageCircle, href: "/campagnes" },
-  { label: "Validation IA", icon: Bot, href: "#" },
+  { label: "Validation IA", icon: Bot, href: "/validation-ia" },
   { label: "Anti-rush", icon: Gauge, href: "#" },
   { label: "Historique", icon: CalendarClock, href: "#" },
   { label: "Conformite", icon: ShieldCheck, href: "#" }
@@ -199,7 +199,7 @@ export default function Home() {
                 <p className="eyebrow">Validation IA</p>
                 <h3>Messages prets a controler</h3>
               </div>
-              <button className="secondary-button">Voir tout</button>
+              <Link className="secondary-button link-button" href="/validation-ia">Voir tout</Link>
             </div>
             <div className="validation-list">
               {generatedMessages.map((item) => (
